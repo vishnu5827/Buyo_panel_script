@@ -1,164 +1,105 @@
-	package Panel;
-	
-	import java.awt.AWTException;
-	
-	import org.openqa.selenium.WebDriver;
-	import org.openqa.selenium.WebElement;
-	import org.openqa.selenium.chrome.ChromeDriver;
-	import org.openqa.selenium.support.ui.ExpectedConditions;
-	import org.openqa.selenium.support.ui.WebDriverWait;
-	import org.testng.annotations.AfterClass;
-	import org.testng.annotations.BeforeClass;
-	import org.testng.annotations.Test;
-	
-	public class Base_BuyoTest {
-	
-		private static final String enabled = null;
-		private static final String priority = null;
-		WebDriver driver; 
-		
-		 
-	  @BeforeClass
-	  void setup() throws InterruptedException {
-		 //System.setProperty("Webdriver.chromedriver","T:\\Vg_Selenium\\Driver\\chromerdriver.exe");
-		 driver= new ChromeDriver();
-		 driver.get("https://panel.buyofuel.dev/auth/login");
-		 driver.manage().window().maximize();
-		 Thread.sleep(3000);
-	  }
-	
-	  @Test(priority = 1)
-	  void test_login() throws InterruptedException {
-		 Login_Page lp =new Login_Page(driver);
-		 Thread.sleep(2000);
-		 lp.set_username("vishnugeethan@buyofuel.com");
-		 lp.set_password("demo123#");
-		 lp.click_signup();
-		 Thread.sleep(5000);
-	  }
-	  
-	 @Test(priority=2,enabled=false)
-	  void test_lead() throws InterruptedException{
-		 Leads_Page ld=new Leads_Page(driver);
-		 Lead_list_page llp=new Lead_list_page(driver);
-		 ld.click_lead_menu();
-		 ld.click_create();
-		 ld.set_name("Buyo Automation 13");
-		 // while running entire test update new lead name.
-		 ld.get_lead_name();
-		 ld.set_designation("Auto_buyo engineer");
-		 ld.set_company("veegee buyo");
-		 ld.set_email("vishnugeethan261997@gmail.com");
-		 ld.set_phone("9688687009");
-		 ld.set_state();
-		 ld.set_city();
-		 ld.set_quantity("125");
-		 ld.set_lead_type();
-		 ld.set_lead_source("Walk-in from campaign");
-		 ld.set_person_handling();
-		 ld.set_followup_handling();
-		 ld.set_priority();
-		 ld.submit();
-		 Thread.sleep(5000);
-		 //Here list page access object-call is processed.
-		 llp.click_saved_view("Lead_Automation");
-		 //llp.web_table_access();
-		 //llp.record_fetching_data_accessing();
-		 llp.name_search();
-		 llp.tab_switching();
-		}
-	 
-	 @Test(priority=3,enabled=false)
-	 void test_business_page() throws InterruptedException {
-		 Business_page bp=new Business_page(driver);
-		 bp.click_business();
-		 Thread.sleep(4000);
-		 bp.create_business();
-		 bp.set_business_name("Auto_Test_business 2");
-		 bp.set_business_gst("09AAACH7409R1ZZ");
-		 //bp.click_msme();
-		 bp.set_business_type();
-		 bp.set_business_mail("auto@gmail.com");
-		 bp.set_business_phone("9633224400");
-		 bp.click_same_check_box();
-		 bp.set_business_add1("Gandhi nagar , 2nd cross");
-		 bp.set_business_add2("ganapathy");
-		 bp.set_country();
-		 bp.set_state();
-		 bp.set_city();
-		 bp.set_pincode("641106");
-		 bp.set_zone();
-		 bp.set_cust_name("veegee");
-		 bp.set_cust_mail("veegee@gmail.com");
-		 bp.set_cust_phone("8877445522");
-		 bp.set_cust_designation("Regional Manager");
-		 driver.navigate().refresh();
-		 Thread.sleep(5000);
-		 // disabling the check box for address same fields.
-	 }
+package Panel;
 
-	 
-	 @Test(priority=4,enabled=false)
-		 void test_enquiry_pages() throws InterruptedException {
-		 Enquiry_pages ep=new Enquiry_pages(driver);
-		 rfq_list_page rlp=new rfq_list_page(driver);
-		 Open_listing ep1=new Open_listing(driver);
-		 listing_list_page llp=new listing_list_page(driver);
-		 ep.click_enquiry();
-		 ep.click_rfq();
-		 ep.click_create();
-		 ep.set_buyer("Buyo_Buyer_Automation");
-		 ep.get_buyer_name();
-		 ep.set_product();
-		 ep.set_unit();
-		 ep.product_qty();
-		 ep.set_price("8500");
-		 ep.click_auto_price();
-		 ep.set_quantity_req("125");
-		 ep.set_delivery_frq();
-		 ep.set_delivery_add();
-		 ep.set_delivery_by();
-		 ep.set_pay_term();
-		 ep.click_qty_test();
-		 ep.click_trail();
-		 ep.set_qty_remark("Rfq added by automation");
-		 ep.click_submit();
-		 ep.confirm();
+import java.awt.AWTException;
 
-		 //Here handling list page from rfq-menu.
-		 rlp.click_rfq_saved_view("rfq_automation");
-		 //rlp.buyer_search();
-		 rlp.tab_switching();
-		 
-		 //here listing page automation
-		 ep1.click_enquiry();
-		 ep1.click_listing();
-		 ep1.click_create();
-		 ep1.set_seller("Buyo_Seller_Automation");
-		 ep1.set_product();
-		 ep1.set_unit();
-		 ep1.set_pur_price("8.1");
-		 ep1.set_trade_price("9.1");
-		 ep1.set_quantity("95");
-		 ep1.set_gst();
-		 ep1.set_trasport();
-		 ep1.set_delivery_frq();
-		 ep1.set_pickup_add();
-		 ep1.set_delivery_by();
-		 ep1.action();
-		 ep1.dummy_click();
-		 ep1.set_pay_term();
-		 ep1.click_negotialbe();
-		 ep1.set_qty_remark("Listing added by automation");
-		 ep1.click_submit1();
-		 ep1.confirm1();
-		 //here listing list page accessing
-		 llp.click_listing_saved_view("list_automation");
-		 llp.tab_switching();
-		 
-			 }
-	
-	 @Test(priority=5,enabled=false)
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Base_BuyoTest {
+
+	private static final String enabled = null;
+	private static final String priority = null;
+	WebDriver driver;
+
+	@BeforeClass
+	void setup() throws InterruptedException {
+		// System.setProperty("Webdriver.chromedriver","T:\\Vg_Selenium\\Driver\\chromerdriver.exe");
+		WebDriverManager.chromedriver().setup();
+		driver = new ChromeDriver();
+		driver.get("https://panel.buyofuel.dev/auth/login");
+		driver.manage().window().maximize();
+		Thread.sleep(3000);
+	}
+
+	@Test(priority = 1)
+	void test_login() throws InterruptedException {
+		Login_Page lp = new Login_Page(driver);
+		Thread.sleep(2000);
+		lp.set_username("vishnugeethan@buyofuel.com");
+		lp.set_password("demo123#");
+		lp.click_signup();
+		Thread.sleep(5000);
+
+	}
+
+	/*
+	 * @Test(priority=2) void test_lead() throws InterruptedException{ Leads_Page
+	 * ld=new Leads_Page(driver); Lead_list_page llp=new Lead_list_page(driver);
+	 * ld.click_lead_menu(); ld.click_create(); ld.set_name("Buyo Automation 13");
+	 * // while running entire test update new lead name. ld.get_lead_name();
+	 * ld.set_designation("Auto_buyo engineer"); ld.set_company("veegee buyo");
+	 * ld.set_email("vishnugeethan261997@gmail.com"); ld.set_phone("9688687009");
+	 * ld.set_state(); ld.set_city(); ld.set_quantity("125"); ld.set_lead_type();
+	 * ld.set_lead_source("Walk-in from campaign"); ld.set_person_handling();
+	 * ld.set_followup_handling(); ld.set_priority(); ld.submit();
+	 * Thread.sleep(5000); //Here list page access object-call is processed.
+	 * llp.click_saved_view("Lead_Automation"); //llp.web_table_access();
+	 * //llp.record_fetching_data_accessing(); llp.name_search();
+	 * llp.tab_switching(); }
+	 * 
+	 * @Test(priority=3) void test_business_page() throws InterruptedException {
+	 * Business_page bp=new Business_page(driver); bp.click_business();
+	 * Thread.sleep(4000); bp.create_business();
+	 * bp.set_business_name("Auto_Test_business 2");
+	 * bp.set_business_gst("09AAACH7409R1ZZ"); //bp.click_msme();
+	 * bp.set_business_type(); bp.set_business_mail("auto@gmail.com");
+	 * bp.set_business_phone("9633224400"); bp.click_same_check_box();
+	 * bp.set_business_add1("Gandhi nagar , 2nd cross");
+	 * bp.set_business_add2("ganapathy"); bp.set_country(); bp.set_state();
+	 * bp.set_city(); bp.set_pincode("641106"); bp.set_zone();
+	 * bp.set_cust_name("veegee"); bp.set_cust_mail("veegee@gmail.com");
+	 * bp.set_cust_phone("8877445522"); bp.set_cust_designation("Regional Manager");
+	 * driver.navigate().refresh(); Thread.sleep(5000); // disabling the check box
+	 * for address same fields. }
+	 * 
+	 * 
+	 * @Test(priority=4) void test_enquiry_pages() throws InterruptedException {
+	 * Enquiry_pages ep=new Enquiry_pages(driver); rfq_list_page rlp=new
+	 * rfq_list_page(driver); Open_listing ep1=new Open_listing(driver);
+	 * listing_list_page llp=new listing_list_page(driver); ep.click_enquiry();
+	 * ep.click_rfq(); ep.click_create(); ep.set_buyer("Buyo_Buyer_Automation");
+	 * ep.get_buyer_name(); ep.set_product(); ep.set_unit(); ep.product_qty();
+	 * ep.set_price("8500"); ep.click_auto_price(); ep.set_quantity_req("125");
+	 * ep.set_delivery_frq(); ep.set_delivery_add(); ep.set_delivery_by();
+	 * ep.set_pay_term(); ep.click_qty_test(); ep.click_trail();
+	 * ep.set_qty_remark("Rfq added by automation"); ep.click_submit();
+	 * ep.confirm();
+	 * 
+	 * //Here handling list page from rfq-menu.
+	 * rlp.click_rfq_saved_view("rfq_automation"); //rlp.buyer_search();
+	 * rlp.tab_switching();
+	 * 
+	 * //here listing page automation ep1.click_enquiry(); ep1.click_listing();
+	 * ep1.click_create(); ep1.set_seller("Buyo_Seller_Automation");
+	 * ep1.set_product(); ep1.set_unit(); ep1.set_pur_price("8.1");
+	 * ep1.set_trade_price("9.1"); ep1.set_quantity("95"); ep1.set_gst();
+	 * ep1.set_trasport(); ep1.set_delivery_frq(); ep1.set_pickup_add();
+	 * ep1.set_delivery_by(); ep1.action(); ep1.dummy_click(); ep1.set_pay_term();
+	 * ep1.click_negotialbe(); ep1.set_qty_remark("Listing added by automation");
+	 * ep1.click_submit1(); ep1.confirm1(); //here listing list page accessing
+	 * llp.click_listing_saved_view("list_automation"); llp.tab_switching();
+	 * 
+	 * }
+	 */
+	@Test(priority=5)
 	 
 	 void test_purchase_order() throws InterruptedException {
 		 Purchase_Order_page po= new Purchase_Order_page(driver);
@@ -168,7 +109,7 @@
 		 Thread.sleep(5000);
 		 po.click_create();
 		 Thread.sleep(2000);
-		 po.set_po_number("PON-QA-TEST-04/25");
+		 po.set_po_number("PON-QA-APL/TEST-04/10");
 		 System.out.println("Getting PO from Purchase_Order_page before get: " + po.get_po());
 		 po.get_po();
 		 po.set_po_date();
@@ -195,27 +136,22 @@
 		 pol.click_po_saved_view("po_automation");
 		 //pol.select_po();
 		 pol.click_po_search();
-		 pol.tab_switching();
+		 pol.request_tab_access("accepting the po");
 		 
 		//Here will be creating order in PO page.
-        cop.click_order_create();
-        cop.set_seller("Buyo_Seller_Automation");
-		cop.set_order_delivery_by_date();
-		cop.set_order_quantity("105");
-		cop.set_pur_price("8100");
-		cop.set_gst();
-		cop.set_trasport();
-		cop.action();
-		cop.set_pickup_add(); 
-		cop.set_delivery_by();
-		cop.set_pay_term();
-		cop.set_pur_credit_term("2");
-		//cop.set_qty_remark("Create Order in PO added by automation");
-		cop.click_add_order();
-		cop.confirm_order();
+	    cop.tab_switching();
+		
+		 cop.click_order_create(); cop.set_seller("Buyo_Seller_Automation");
+		 cop.set_order_delivery_by_date(); cop.set_order_quantity("105");
+		 cop.set_pur_price("8100"); cop.set_gst(); cop.set_trasport(); cop.action();
+		 cop.set_pickup_add(); cop.set_delivery_by(); cop.set_pay_term();
+		 cop.set_pur_credit_term("2");
+		 //cop.set_qty_remark("Create Order in PO added by automation");
+		 cop.click_add_order(); cop.confirm_order();
+		 
 	}
 	 
-	 @Test(priority=6,enabled=false)
+	 @Test(priority=6)
 	 
 	 void test_order_page() throws InterruptedException {
 		 Order_page op=new Order_page(driver);
@@ -245,15 +181,16 @@
 		 olp.click_order_saved_view("order_automation");
 		 olp.click_po_filter();
 		 olp.capture_order_no();
-		 olp.get_order_no();
-		 olp.tab_switching();
-		 olp.order_accept();
+		 olp.orders_accessing("50000");
+		 //olp.get_order_no();
+		// olp.tab_switching();
+		// olp.order_accept();
 		 
 		 		 
 		 
 	 }
 	
-	 @Test(priority=7,enabled=false)
+	 @Test(priority=7)
 	 
 	 void test_dispatch_pages() throws InterruptedException, AWTException   {
 		 Dispatch_pages dp=new Dispatch_pages(driver);
@@ -285,7 +222,7 @@
 		 //Handling Supplier payment
 		 sp.click_dispatch();
 		 sp.click_supplier_pay();
-		 /*sp.create_dispatch();
+		 sp.create_dispatch();
 		 sp.set_buyer("Buyo_Buyer_Automation");
 		 sp.set_order_no();
 		 sp.set_purchase_bill("AUTO/2/1124");
@@ -296,7 +233,7 @@
 		 sp.set_dispatch_from("641005");
 		 sp.set_additonal_info("Supplier payment added by automation");
 		 sp.click_submit2();
-		 sp.click_confirm2();*/
+		 sp.click_confirm2();
 		 
 		 //handling payable list page
 		 //slp.click_dispatch();
@@ -330,7 +267,7 @@
 		
 	 }
 	 
-	 @Test(priority=8,enabled=false)
+	 @Test(priority=8)
 	 
 	 void test_payment_pages() throws InterruptedException{
 		 Payment_pages pp=new Payment_pages(driver);
@@ -385,11 +322,9 @@
 	
 	// i have disabled the demo_test method as well. to check git diff command.
 	//to check the fetch command	
-		
-	 
-	 
-	  @AfterClass
-	  void close () {
-		  driver.quit();
-	  }
+
+	@AfterClass
+	void close() {
+		driver.quit();
 	}
+}

@@ -19,7 +19,7 @@ public class Business_page {
 	public Business_page(WebDriver driver) {
 	this.driver  = driver;	
 }
-	By btn_business=By.xpath("//div[@class='top-nav-wrapper']//ul//li[4]");
+	By btn_business=By.xpath("//div[@class='top-nav-wrapper']//ul//li[3]");
 	By btn_create_business=By.xpath("//span[normalize-space()='Create Business']");
 	By btn_business_name=By.xpath("//input[@id='admin_businessname']");
 	By btn_gst=By.xpath("//div[@id='admin_gstNumber']//input[@type='text']");

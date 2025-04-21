@@ -1,4 +1,4 @@
-package Panel;
+	package Panel;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ public class Payment_pages extends supplier_list_page {
 		super(driver);
 			}
 
-	By btn_payment=By.xpath("//div[@class='top-nav-wrapper']//ul//li[10]");
+	By btn_payment=By.xpath("//div[@class='top-nav-wrapper']//ul//li[9]");
 	By btn_payment1=By.xpath("//div//div//ul[contains(@id,'Payments-popup')]//li[1]");
 	By btn_create=By.xpath("//span[normalize-space()='Create Payment']");
     By btn_dispatch=By.xpath("//input[@id='admin_dispatch']");

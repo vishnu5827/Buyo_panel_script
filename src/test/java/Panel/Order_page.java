@@ -19,7 +19,7 @@ public class Order_page extends Purchase_Order_page {
 		
 	}
     	
-	By btn_order=By.xpath("//div[@class='top-nav-wrapper']//ul//li[7]");
+	By btn_order=By.xpath("//div[@class='top-nav-wrapper']//ul//li[6]");
 	By btn_order_create=By.xpath("//span[normalize-space()='Create Order Against PO']");
 	By btn_buyer=By.xpath("//input[@id='admin_buyer']");
 	By buyer_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div[@title=\"Buyo_Buyer_Automation\"]");
@@ -32,7 +32,7 @@ public class Order_page extends Purchase_Order_page {
 	By btn_order_quantity=By.xpath("//input[@id='admin_qty']");
 	By btn_pur_price=By.xpath("//input[@id='admin_purchasingPrice']");
 	By btn_gst=By.xpath("//input[@id='admin_gst']");
-	By gst_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div//div[text()=\"0% - GST Not Applied\"]");
+	By gst_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div//div[contains(., '5%') and contains(., 'Extra')]");
 	By btn_tranport=By.xpath("//input[@id='admin_transport']");
 	By transport_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div//div[text()=\"Included\"]");
 	By btn_pickup_add=By.xpath("//input[@id='admin_pickupAddressId']");
@@ -145,16 +145,17 @@ public class Order_page extends Purchase_Order_page {
 	public void set_gst() throws InterruptedException {
 		WebElement gst= driver.findElement(btn_gst);
 		gst.click();
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
  	    WebElement gst_data= wait.until(ExpectedConditions.visibilityOfElementLocated(gst_value));
         gst_data.click();
+        Thread.sleep(2000);
 	}
 	
 	public void set_trasport() throws InterruptedException {
  	    WebElement transport_field=driver.findElement(btn_tranport);
 	    transport_field.click();
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(20));
  	    WebElement transport_data = wait1.until(ExpectedConditions.visibilityOfElementLocated(transport_value));
         transport_data.click();
@@ -236,9 +237,13 @@ class order_list_page extends Order_page {
 	By btn_po_search=By.xpath("(//div[@class=\"ant-table-filter-column\"]//span[@role=\"button\"])[3]");
 	By btn_search_input=By.xpath("//input[@placeholder='Search by Purchase Order No']");
 	By web_tabs_name=By.xpath("//div[@class=\"table-radio-group\"]//div//label//span//input");
-	By web_table_order_status=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr[2]//td[5]");
-	By order_accept=By.xpath("(//div[@class=\"ant-table-body\"]//table//tbody//tr[2]//td[6]//div//div//button[@type=\"button\"])[1]");
+	By web_table_order_status=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr[2]//td[4]");
+	By order_accept=By.xpath("(//div[@class=\"ant-table-body\"]//table//tbody//tr[2]//td[5]//div//div//button[@type=\"button\"])[1]");
 	By order_confirm_accept=By.xpath("//div[@class=\"ant-modal-body\"]//div[@class=\"ant-modal-confirm-btns\"]//button[2]");
+	
+	By order_row_access=By.xpath("//table//tbody//tr//td[2]//a");
+	By submit=By.xpath("//div[contains(@class,\"ant-form-item-control-input-content\")]//button[@type=\"submit\"  and contains(., 'Confirm')]");
+
 	
 	 public void click_order_saved_view(String saved) throws InterruptedException {
 		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -278,6 +283,55 @@ class order_list_page extends Order_page {
 		 System.out.println("getting the order no :"+ Order_value);
 		  return Order_value;
 	 }
+	 
+	 public void orders_accessing(String exp_limit) throws InterruptedException {
+		 
+		 for (int i = 0;i < driver.findElements(order_row_access).size(); i++) {
+		 
+		 List<WebElement> order_numbers= driver.findElements(order_row_access);
+		 
+			    WebElement orderElement = order_numbers.get(i);
+			    String orderNumber = orderElement.getText().trim();
+			    
+			    if (orderNumber.isEmpty()) {
+			        System.out.println("Skipping empty order number at index: " + i);
+			        continue;
+			    }
+			    
+			    System.out.println("Order number fetched from the list page is : " + (i+1) + ": " + orderNumber);
+			    
+			    switch (i) {
+			    
+				case 0: {
+					
+					WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(10));
+					WebElement order_Accept_click=wait.until(ExpectedConditions.visibilityOfElementLocated(order_accept));
+					order_Accept_click.click();
+					Thread.sleep(3000);
+					driver.findElement(submit).click();
+					Thread.sleep(3000);
+					break;
+				}
+				
+				case 1: {
+					
+					WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(10));
+					WebElement order_Accept_click=wait.until(ExpectedConditions.visibilityOfElementLocated(order_accept));
+					order_Accept_click.click();
+					Thread.sleep(3000);
+					driver.findElement(By.id("admin_exposureLimit")).sendKeys(exp_limit);
+					driver.findElement(submit).click();Thread.sleep(3000);
+					//driver.navigate().back();
+					break;
+				}
+
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + i);
+				}
+		 }
+		 
+		 }
+	 
 	 
 	 public void tab_switching() throws InterruptedException {
 			//WebElement tab_list=driver.findElement(web_tab_elements);

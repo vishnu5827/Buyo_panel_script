@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -26,7 +27,7 @@ public class Purchase_Order_page{
 		this.driver=driver;
 }
 		
-	By btn_Purchase_order=By.xpath("//div[@class='top-nav-wrapper']//ul//li[6]");
+	By btn_Purchase_order=By.xpath("//div[@class='top-nav-wrapper']//ul//li[5]");
 	By btn_create=By.xpath("//span[normalize-space()='Create Purchase Order']");
 	By btn_po_no=By.xpath("//input[@id='admin_purchaseOrderNo']");
 	By btn_po_date=By.xpath("//input[@id='admin_purchaseOrderDate']");
@@ -226,7 +227,7 @@ public class Purchase_Order_page{
 		WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(20));
  	    WebElement confirm_click = wait1.until(ExpectedConditions.visibilityOfElementLocated(btn_confirmation));
         confirm_click.click();
-        Thread.sleep(15000);
+        Thread.sleep(5000);
    }	
 		
   }
@@ -245,8 +246,10 @@ class listpage extends Purchase_Order_page{
 	By web_table_row_selection=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr");
 	By web_table_firstrecord_access=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr[2]");
 	By web_tabs_name=By.xpath("//div[@class=\"table-radio-group\"]//div//label//span//input");
-	By web_table_po_status=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr[2]//td[6]");
-	
+	By web_table_action_click=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr[2]//td[6]//div//div[4]");
+	By action_accept=By.xpath("//div[@class=\"ant-dropdown ant-dropdown-placement-bottomLeft \"]//ul//li[2]");
+	By comment=By.id("admin_comment");
+	By submit=By.xpath("//div[contains(@class,\"ant-form-item-control-input-content\")]//button[@type=\"submit\"  and contains(., 'Confirm')]");
 	
     public void click_po_saved_view(String saved) throws InterruptedException {
     	
@@ -289,7 +292,60 @@ class listpage extends Purchase_Order_page{
  	    Thread.sleep(8000);
     }
     
-    public void tab_switching() throws InterruptedException {
+   
+   public void request_tab_access(String remark) throws InterruptedException {
+	   
+	   WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(10));
+	   WebElement record_1=wait.until(ExpectedConditions.visibilityOfElementLocated(web_table_firstrecord_access));
+	   WebElement action_click=wait.until(ExpectedConditions.elementToBeClickable(web_table_action_click));
+	   action_click.click();
+	   WebElement accept=wait.until(ExpectedConditions.elementToBeClickable(action_accept));
+	   accept.click();  
+	   super.action();
+	   WebElement remarks=wait.until(ExpectedConditions.visibilityOfElementLocated(comment));
+	   remarks.sendKeys(remark);
+	   Thread.sleep(3000);
+	   try {
+		   WebElement sub=wait.until(ExpectedConditions.visibilityOfElementLocated(submit));
+		   sub.click();
+		   ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", sub);
+	} catch (ElementClickInterceptedException  e) {
+	
+		System.out.println(e);
+    }  
+	   	   }
+} 
+
+
+class create_order_po extends Purchase_Order_page{
+
+	public create_order_po(WebDriver driver) {
+		super(driver);
+		
+	}
+	By web_table_po_status=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr[2]//td[5]");
+	By web_table_row_po_selection=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr");
+	By web_table_record_po_access=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr[2]");
+    By web_table_record_po_order_create=By.xpath("(//div[@class=\"ant-table-body\"]//table//tbody//tr[2]//td[6]//div//div)[1]");
+    By btn_seller=By.xpath("//input[@id='admin_seller']");
+	By seller_value=By.xpath("//div[@class=\"rc-virtual-list\"]//div//div//div//div[@title=\"Buyo_Seller_Automation\"]");
+	By btn_order_date=By.xpath("//input[@id='admin_orderDate']");
+	By btn_order_quantity=By.xpath("//input[@id='admin_qty']");
+	By btn_pur_price=By.xpath("//input[@id='admin_purchasingPrice']");
+	By btn_gst=By.xpath("//input[@id='admin_gst']");
+	By gst_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div//div[contains(., '5%') and contains(., 'Included')]");
+	By btn_tranport=By.xpath("//input[@id='admin_transport']");
+	By transport_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div//div[text()=\"Included\"]");
+	By btn_pickup_add=By.xpath("//input[@id='admin_pickupAddressId']");
+	By pickup_add_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div[@city=\"Ernakulam\"]//div//div//h5[text()=\"Buyo_Seller_Automation\"]");
+	By btn_delivery_by=By.xpath("//input[@id='admin_deliveryOn']");
+	By btn_payment_terms=By.xpath("//input[@id='admin_paymentTerms']");
+	By btn_purcahse_credit=By.xpath("//input[@id='admin_purchaseCreditTerm']");
+	By btn_remark=By.xpath("//div[@class=\"ant-form-item-control-input-content\"]//textarea[@id=\"admin_remark\"]");
+	By btn_add_order=By.xpath("//span[normalize-space()='Add Order']");
+	By btn_confirm1=By.xpath("(//div[@class=\"ant-modal-footer\"]//button)[2]");
+    
+	public void tab_switching() throws InterruptedException {
 		//WebElement tab_list=driver.findElement(web_tab_elements);
 		//int tab_size = tab_list.findElements(By.tagName("label")).size();
 		//System.out.println("Total no.of tabs present in the leads menu :"+tab_size);
@@ -301,7 +357,7 @@ class listpage extends Purchase_Order_page{
 			String value=e.getAttribute("value");
 		    //System.out.println(value);
 		   }*/
-	    
+	    Thread.sleep(3000);
 	    WebElement status=driver.findElement(web_table_po_status);
 	    String e4= status.getText();
 	    System.out.println("Check the status txt for button click event. :"+e4);
@@ -313,39 +369,7 @@ class listpage extends Purchase_Order_page{
 	    	if(tab_label.contains(e4)) {
 	    		button.click();
 	    	}
-	    }Thread.sleep(7000);
-	   
-    }
-} 
-
-class create_order_po extends Purchase_Order_page{
-
-	public create_order_po(WebDriver driver) {
-		super(driver);
-		
-	}
-	
-	By web_table_row_po_selection=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr");
-	By web_table_record_po_access=By.xpath("//div[@class=\"ant-table-body\"]//table//tbody//tr[2]");
-    By web_table_record_po_order_create=By.xpath("(//div[@class=\"ant-table-body\"]//table//tbody//tr[2]//td[7]//div//div)[1]");
-    By btn_seller=By.xpath("//input[@id='admin_seller']");
-	By seller_value=By.xpath("//div[@class=\"rc-virtual-list\"]//div//div//div//div[@title=\"Buyo_Seller_Automation\"]");
-	By btn_order_date=By.xpath("//input[@id='admin_orderDate']");
-	By btn_order_quantity=By.xpath("//input[@id='admin_qty']");
-	By btn_pur_price=By.xpath("//input[@id='admin_purchasingPrice']");
-	By btn_gst=By.xpath("//input[@id='admin_gst']");
-	By gst_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div//div[text()=\"0% - GST Not Applied\"]");
-	By btn_tranport=By.xpath("//input[@id='admin_transport']");
-	By transport_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div//div[text()=\"Included\"]");
-	By btn_pickup_add=By.xpath("//input[@id='admin_pickupAddressId']");
-	By pickup_add_value=By.xpath("//div[@class=\"rc-virtual-list-holder-inner\"]//div[@city=\"Ernakulam\"]//div//div//h5[text()=\"Buyo_Seller_Automation\"]");
-	By btn_delivery_by=By.xpath("//input[@id='admin_deliveryOn']");
-	By btn_payment_terms=By.xpath("//input[@id='admin_paymentTerms']");
-	By btn_purcahse_credit=By.xpath("//input[@id='admin_purchaseCreditTerm']");
-	By btn_remark=By.xpath("//div[@class=\"ant-form-item-control-input-content\"]//textarea[@id=\"admin_remark\"]");
-	By btn_add_order=By.xpath("//span[normalize-space()='Add Order']");
-	By btn_confirm1=By.xpath("(//div[@class=\"ant-modal-footer\"]//button)[2]");
-
+	    } }
 	
     public void click_order_create() {
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));

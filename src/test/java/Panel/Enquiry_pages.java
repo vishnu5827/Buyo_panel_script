@@ -22,7 +22,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 		this.driver=driver;
 	}
 	
-	By btn_enquiry=By.xpath("//div[@class='top-nav-wrapper']//ul//li[5]");
+	By btn_enquiry=By.xpath("//div[@class='top-nav-wrapper']//ul//li[6]");
 	By btn_open_rfq=By.xpath("//div//div//ul[contains(@id,'Enquiries-popup')]//li[1]");
 	By btn_create=By.xpath("//span[normalize-space()='Create Open RFQ']");
 	By btn_buyer=By.xpath("(//input[@id='admin_buyer'])[1]");
